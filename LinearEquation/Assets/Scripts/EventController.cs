@@ -30,9 +30,9 @@ public class EventController : MonoBehaviour {
     public GameObject ItemsPar;
 
     // Item 정보
-    private int[] ItemsData = new int[10]; // -1: 빔,   0 ~ 9: 숫자,   10, 11, 12, 13: +, -, /, *
-    private Vector3[] ItemsPos = new Vector3[10];
-    private static int max_itemNum = 10;
+    private int[] ItemsData = new int[10];          // -1: 빔,   0 ~ 9: 숫자,   10, 11, 12, 13: +, -, /, *
+    private Vector3[] ItemsPos = new Vector3[10];   // 랜덤 위치 저장
+    private static int max_itemNum = 10;            // Item 갯수, 나중에 늘릴수도?
 
     // Random Class
     private System.Random rand;
@@ -51,10 +51,12 @@ public class EventController : MonoBehaviour {
 
     // LeftCharacter, RightCharacter 중복으로 Operate 방지
     public bool isOperated;
-    
+    private bool NeedRestart;   // 재시작합시다
+    private int Restarting;
 ///////////////////////////////////////////////////////////////////////////// Init
     void Awake()
     {
+        // 랜덤 위치... 대충 눈으로 잡음, 나중에 아예 랜덤생성으로 하는게 좋을듯
         rand = new System.Random();
         ItemsPos[0] = new Vector3(-6.81f, -3.82f);
         ItemsPos[1] = new Vector3(-7.48f, 0.0f);
@@ -66,18 +68,20 @@ public class EventController : MonoBehaviour {
         ItemsPos[7] = new Vector3(-7.33f, -1.83f);
         ItemsPos[8] = new Vector3(-4.89f, -1.89f);
         ItemsPos[9] = new Vector3(-0.35f, -1.7f);
+        // 초기화 함수, 이름을 Init으로 할걸그랬나
         Restart();
     }
 
-    void Restart()
+    void Restart() // 초기화 함수
     {
         // 캐릭터 위치 초기화
         LeftCharacter.transform.localPosition = new Vector3(-4.0f, -4.0f);
         RightCharacter.transform.localPosition = new Vector3(4.0f, -4.0f);
 
-        NumbersInit();  // 일차방정식 숫자 세팅 초기화
-        ItemsInit();    // 떨어져있는 아이템 세팅 초기화
-        DisplayEquation();
+        NumbersInit();  // 일차방정식 숫자 세팅 초기화 (랜덤 생성)
+        ItemsInit();    // 떨어져있는 아이템 세팅 초기화 및 Display (랜덤 생성)
+        RemoveEquation();   // 이전방정식 제거
+        DisplayEquation();  // 일차방정식 Display
     }
 
     void NumbersInit()  // 일차방정식 숫자 랜덤 생성 및 기타 숫자들 초기화
@@ -91,21 +95,23 @@ public class EventController : MonoBehaviour {
         GetOper = "";
         GetNum = -1;
         isOperated = false;
+        NeedRestart = false;
+        Restarting = 0;
     }
 
     void ItemsInit()    // 아이템 초기화, 생성된 숫자, 연산자에 알맞게 + 위치 랜덤
     {
-        RemoveItems();
-        for (int i = 0; i < max_itemNum; i++) ItemsData[i] = -1;
+        RemoveItems();                                              // 만들기 전에 있던 아이템 삭제
+        for (int i = 0; i < max_itemNum; i++) ItemsData[i] = -1;    // 아이템 0 ~ 10번 비움
         int rndCoe = rand.Next(0, 10);
-        ItemsData[rndCoe] = Coefficient;
+        ItemsData[rndCoe] = Coefficient;                            // 계수 분자부분 생성
         int rndCon = rand.Next(0, 9);
         for (int i = rndCon;; i++)
         {
             if (i == max_itemNum) i = 0;
             if (ItemsData[i] == -1)
             {
-                if (Constant < 0) ItemsData[i] = -Constant;
+                if (Constant < 0) ItemsData[i] = -Constant;         // 상수항 생성
                 else ItemsData[i] = Constant;
                 break;
             }
@@ -118,7 +124,7 @@ public class EventController : MonoBehaviour {
                 if (i == max_itemNum) i = 0;
                 if (ItemsData[i] == -1)
                 {
-                    ItemsData[i] = Coefficient_Deno;
+                    ItemsData[i] = Coefficient_Deno;                // 계수가 분수인 경우 분모 생성 (지금은 노쓸모)
                     break;
                 }
             }
@@ -131,7 +137,7 @@ public class EventController : MonoBehaviour {
                 if (i == max_itemNum) i = 0;
                 if (ItemsData[i] == -1)
                 {
-                    ItemsData[i] = Constant_Deno;
+                    ItemsData[i] = Constant_Deno;                   // 상수항이 분수인 경우 분모 생성 (지금은 노쓸모)
                     break;
                 }
             }
@@ -144,7 +150,7 @@ public class EventController : MonoBehaviour {
                 if (i == max_itemNum) i = 0;
                 if (ItemsData[i] == -1)
                 {
-                    ItemsData[i] = 10;  // Plus
+                    ItemsData[i] = 10;  // 상수항<0 일 때 Plus 생성
                     break;
                 }
             }
@@ -156,7 +162,7 @@ public class EventController : MonoBehaviour {
                 if (i == max_itemNum) i = 0;
                 if (ItemsData[i] == -1)
                 {
-                    ItemsData[i] = 11;  // Minus
+                    ItemsData[i] = 11;  // 상수항>=0 일 때 Minus 생성
                     break;
                 }
             }
@@ -169,7 +175,7 @@ public class EventController : MonoBehaviour {
                 if (i == max_itemNum) i = 0;
                 if (ItemsData[i] == -1)
                 {
-                    ItemsData[i] = 12;  // Div
+                    ItemsData[i] = 12;  // 계수>1 일 때 Div 생성
                     break;
                 }
             }
@@ -182,17 +188,17 @@ public class EventController : MonoBehaviour {
                 if (i == max_itemNum) i = 0;
                 if (ItemsData[i] == -1)
                 {
-                    ItemsData[i] = 13;  // Mul
+                    ItemsData[i] = 13;  // 계수<1 일 때 Mul 생성 (지금은 노쓸모)
                     break;
                 }
             }
         }
-        for (int i = 0; i < max_itemNum; i++)
+        for (int i = 0; i < max_itemNum; i++) // 남은 빈공간 랜덤생성
         {
             if (ItemsData[i] == -1)
                 ItemsData[i] = rand.Next(0, max_itemKind-1);
         }
-        for (int i = 0; i < max_itemNum; i++)
+        for (int i = 0; i < max_itemNum; i++) // 랜덤으로 ItemsData 세팅했으니 Prefab들 Data에 맞춰서 생성
         {
             Vector3 delta = new Vector3(8f, 0f);
             Instantiate(Items[ItemsData[i]], ItemsPos[i], new Quaternion(0f, 0f, 0f, 1f), ItemsPar.transform);
@@ -200,14 +206,18 @@ public class EventController : MonoBehaviour {
         }
     }
 
-    void RemoveItems()
+    void RemoveItems()  // 아이템 제거
     {
         int ItemsNum = ItemsPar.transform.childCount;
         for (int i = ItemsNum - 1; i >= 0; i--) Destroy(ItemsPar.transform.GetChild(i).gameObject);
     }
 ///////////////////////////////////////////////////////////////////////////// Update
     void Update () {
-        // 캐릭터 움직임 (왼, 오, 위, 아래 순)
+        // 재시작...
+        if (NeedRestart) Restarting++;
+        if (Restarting == 60) Restart();
+
+        // 캐릭터 움직임 (Left, Right, Up, Down 순으로 0, 1, 2, 3)
 		if (Input.GetKey("left"))
             Move(LeftCharacter, RightCharacter, 0);
         if (Input.GetKey("right"))
@@ -250,15 +260,16 @@ public class EventController : MonoBehaviour {
                     LeftCharacter.transform.Translate(new Vector3(0.0f, -0.1f));
                 break;
         }
-
+        // 오른쪽 케릭터는 왼쪽꺼 + (8.0, 0.0)
         RightCharacter.transform.localPosition = LeftCharacter.transform.localPosition + delta;
     }
 
-    public void Operate()  // 연산 및 Display하는 함수
-    {               // Display는 계수, 상수항, 결과값의 숫자 Display는 통일
-        int CoefGCD;
-        int ConstGCD;
+    public void Operate()  // 연산 및 Display하는 함수, Character.cs의 SpaceInput()에서 실행함! 이게 Left, Right에 대해 각각 실행돼서 isOperated 변수 만듦
+    {                      // Display는 계수, 상수항, 결과값의 숫자 Display는 통일
+        int CoefGCD;       // 기약분수 만들기 위한 최대공약수 계산
+        int ConstGCD;   
         int ResGCD;
+        // GetOper, GetNum에 맞게 일차방정식의 계수, 상수항, 결과값 계산
         switch (GetOper)
         {
             case "plus": // + 덧셈
@@ -298,16 +309,15 @@ public class EventController : MonoBehaviour {
                 Result_Deno /= ResGCD;
                 break;
         }
-
+        // 계산하기 전 일차방정식 제거
         RemoveEquation();
 
-        if (Coefficient == Coefficient_Deno && Constant == 0)  // 연산 결과로 일차방정식 해를 구했으면
-            Restart();                                         // 재시작
-        else
-            DisplayEquation();
+        // 계산 결과 Display
+        DisplayEquation();
+        if (Coefficient == Coefficient_Deno && Constant == 0) NeedRestart = true; // 연산 결과로 일차방정식 해를 구했으면 재시작
     }
 
-    void RemoveEquation()   // 계수, 연산자, 상수항, 결과식 Prefab Destroy
+    void RemoveEquation() // 일차방정식 제거 - 계수, 연산자, 상수항, 결과식 Prefab Destroy
     {
         int CoefNum = CoefficientPar.transform.childCount;
         int ConstNum = ConstantPar.transform.childCount;
@@ -319,27 +329,30 @@ public class EventController : MonoBehaviour {
         for (int i = ResNum - 1; i >= 0; i--) Destroy(ResultPar.transform.GetChild(i).gameObject);
     }
 
-    void DisplayEquation()  // 상태에 맞게 Display 변환
+    void DisplayEquation()  // 상태에 맞게 Display 변환 이게 ㄹㅇ 핵귀찮
     {
-        if (Coefficient != Coefficient_Deno && Constant != 0)       // 계수, 상수항 모두 있는 경우
-        {
+        if (Coefficient != Coefficient_Deno && Constant != 0)
+        { // 계수, 상수항 모두 있는 경우
             DisplayNumbers(Coefficient, Coefficient_Deno, CoefficientPar, new Vector3(-6.24f, 2.84f));
             x.transform.localPosition = new Vector3(-5.05f, 2.84f);
             DisplayOperator(Constant < 0, EquationPar, new Vector3(-3.49f, 2.84f));
             DisplayNumbers(abs(Constant), Constant_Deno, ConstantPar, new Vector3(-1.8f, 2.84f));
-        } else if(Coefficient != Coefficient_Deno && Constant == 0) // 계수만 있는 경우
-        {
+        }
+        else if(Coefficient != Coefficient_Deno && Constant == 0)
+        { // 계수만 있는 경우
             DisplayNumbers(Coefficient, Coefficient_Deno, CoefficientPar, new Vector3(-5.01f, 2.84f));
             x.transform.localPosition = new Vector3(-3.44f, 2.84f);
-        } else if(Coefficient == Coefficient_Deno && Constant != 0) // 상수항만 있는 경우
-        {
+        }
+        else if(Coefficient == Coefficient_Deno && Constant != 0)
+        { // 상수항만 있는 경우
             x.transform.localPosition = new Vector3(-6.15f, 2.84f);
             DisplayOperator(Constant < 0, EquationPar, new Vector3(-4.12f, 2.84f));
             DisplayNumbers(abs(Constant), Constant_Deno, ConstantPar, new Vector3(-2.27f, 2.84f));
         }
+        // 결과 출력
         if (Result < 0)
         {
-            DisplayOperator(Result < 0, EquationPar, new Vector3(3.78f, 2.84f));
+            DisplayOperator(Result < 0, ResultPar, new Vector3(3.78f, 2.84f));
             DisplayNumbers(-Result, Result_Deno, ResultPar, new Vector3(4.8f, 2.84f));
         }
         else DisplayNumbers(Result, Result_Deno, ResultPar, new Vector3(4.03f, 2.84f));
@@ -348,9 +361,9 @@ public class EventController : MonoBehaviour {
     void DisplayNumbers(int num, int deno, GameObject par, Vector3 pos)  // 모든 숫자들 Display 컨트롤, 분수도 처리
     {
         // Debug.Log(num.ToString() + " " + deno.ToString());
-        if (deno == 1)    // 분수 아닌경우
-            Instantiate(Numbers[num], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
-        else                // 분수인 경우
+        // 분수 아닌경우
+        if (deno == 1) Instantiate(Numbers[num], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
+        else // 분수인 경우
         {
             Vector3 numerator = new Vector3(0f, 0.76f);
             Vector3 denominator = new Vector3(0f, -1.26f);
@@ -360,17 +373,18 @@ public class EventController : MonoBehaviour {
         }
     }
 
-    void DisplayOperator(bool isMinus, GameObject par, Vector3 pos)
+    void DisplayOperator(bool isMinus, GameObject par, Vector3 pos) // 연산자 Display
     {
-        if (isMinus) Instantiate(Opers[1], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
-        else Instantiate(Opers[0], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
+        if (isMinus) Instantiate(Opers[1], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform); // Minus
+        else Instantiate(Opers[0], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);         // Plus
     }
 
-    int gcd(int a, int b)
+    int gcd(int a, int b)   // 최대공약수 계산
     {
+        if (a == 0) return b;
         a = abs(a);
         b = abs(b);
-        if (a == 0) return b;
+
         if (a < b)
         {
             int tmp = a;
@@ -381,7 +395,7 @@ public class EventController : MonoBehaviour {
         return gcd(b, a % b);
     }
 
-    int abs(int a)
+    int abs(int a)  // 절댓값 계산
     {
         if (a < 0) return -a;
         return a;
