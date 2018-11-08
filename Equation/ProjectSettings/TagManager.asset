@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Item
+  - Equation
+  - Character
+  - bullet_eq
+  - bullet_default
   layers:
   - Default
   - TransparentFX
@@ -43,4 +48,13 @@ TagManager:
     locked: 0
   - name: Character
     uniqueID: 2818399989
+    locked: 0
+  - name: Item
+    uniqueID: 2266428143
+    locked: 0
+  - name: Equation
+    uniqueID: 1894569559
+    locked: 0
+  - name: Bullet
+    uniqueID: 1960622117
     locked: 0
