@@ -12,13 +12,8 @@ public class BulletMove : MonoBehaviour {
         velocity = 10f;
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
 	void Update () {
         transform.Translate(dir * Time.deltaTime * velocity);
+        if (transform.position.x < -20f || transform.position.x > 20f || transform.position.y < -20f || transform.position.y > 20f) Destroy(gameObject);
 	}
 }

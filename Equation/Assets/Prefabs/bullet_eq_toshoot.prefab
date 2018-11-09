@@ -19,13 +19,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4992403714909594}
-  - component: {fileID: 114683891595313100}
   - component: {fileID: 212422229078696058}
   - component: {fileID: 58641191322915622}
   - component: {fileID: 114308067350020762}
+  - component: {fileID: 114706158685742510}
   m_Layer: 0
   m_Name: bullet_eq_toshoot
-  m_TagString: Untagged
+  m_TagString: bullet_eq_shoot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: {x: 0, y: 0, z: 0}
---- !u!114 &114683891595313100
+--- !u!114 &114706158685742510
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1852274747584184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cc8a50e816a17648a3d65bed0f6102d, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4c798cebe424e4b808274e68a6eeba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   num: 0

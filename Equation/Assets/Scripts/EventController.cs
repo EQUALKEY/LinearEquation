@@ -54,17 +54,16 @@ public class EventController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow)) Character.transform.rotation *= Quaternion.Euler(Vector3.forward * CharacterAngularVelocity * Time.deltaTime);
         if (Input.GetKey(KeyCode.RightArrow)) Character.transform.rotation *= Quaternion.Euler(-Vector3.forward * CharacterAngularVelocity * Time.deltaTime);
         if (Input.GetKey(KeyCode.UpArrow) && (CharacterVelocity.magnitude <= VelocityLimit || Cross < 0)) Character.GetComponent<Rigidbody2D>().AddForce(Character.transform.up * Force * Time.deltaTime);
-        if (Input.GetKey(KeyCode.DownArrow) && (CharacterVelocity.magnitude <= VelocityLimit || Cross > 0)) Character.GetComponent<Rigidbody2D>().AddForce(-Character.transform.up * Force * Time.deltaTime);
+        if (Input.GetKey(KeyCode.DownArrow)) Character.GetComponent<Rigidbody2D>().AddForce(-CharacterVelocity * Force * Time.deltaTime);
 
         if(Input.GetKey(KeyCode.Space) )
         {
             if (haveBullet == 1)
             {
-
                 haveBullet = 0;
                 Vector3 NewPosition = Character.transform.position;
                 Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
-                GameObject ShootBullet = Instantiate(DefaultBullettoshoot, NewPosition, NewQuaternion);
+                GameObject ShootBullet = Instantiate(DefaultBullettoshoot, NewPosition, NewQuaternion, transform);
 
                 ShootBullet.GetComponent<BulletMove>().dir = Character.transform.up;
             }
@@ -74,9 +73,9 @@ public class EventController : MonoBehaviour
                 haveBullet = 0;
                 Vector3 NewPosition = Character.transform.position;
                 Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
-                GameObject ShootBullet = Instantiate(OperBullettoshoot, NewPosition, NewQuaternion);
-                ShootBullet.GetComponent<Bullet_eq>().num = num;
-                ShootBullet.GetComponent<Bullet_eq>().oper = oper;
+                GameObject ShootBullet = Instantiate(OperBullettoshoot, NewPosition, NewQuaternion, transform);
+                ShootBullet.GetComponent<Bullet_eq_shoot>().num = num;
+                ShootBullet.GetComponent<Bullet_eq_shoot>().oper = oper;
 
                 ShootBullet.GetComponent<BulletMove>().dir = Character.transform.up;
             }
@@ -87,8 +86,7 @@ public class EventController : MonoBehaviour
     void MakeProblem()
     {
         int RandomNum;
-        do
-        {
+        do {
             RandomNum = Random.Range(0, 9);
         } while (NumOfPosition[RandomNum] != 0);
         NumOfPosition[RandomNum]++;
@@ -97,6 +95,15 @@ public class EventController : MonoBehaviour
         Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
 
         GameObject newProblem = Instantiate(Problem, NewPosition, NewQuaternion, Equations.transform);
+        newProblem.GetComponent<Equation>().id = RandomNum;
+    }
+
+    public void RemakeProblem(GameObject eq) {
+        for(int i = eq.transform.childCount - 1; i >= 0; i--)
+            if (eq.transform.GetChild(i).tag == "Item") eq.transform.GetChild(i).parent = eq.transform.parent;
+        NumOfPosition[eq.GetComponent<Equation>().id]--;
+        Destroy(eq);
+        MakeProblem();
     }
     
     IEnumerator BulletManage()

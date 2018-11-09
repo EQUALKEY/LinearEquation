@@ -7,6 +7,22 @@ public class Item : MonoBehaviour {
     public int num;
     public char oper;
 
-   
-    // 부모 없어지면 IEnumerator 시작
+    private bool isDying;
+
+    void Awake() {
+        isDying = false;
+    }
+
+    void Update () {
+        // 부모 Equation 없어지면 IEnumerator 시작
+        if (transform.parent.name == "Equations" && !isDying) {
+            isDying = true;
+            StartCoroutine("DieAfterSeconds");
+        }
+    }
+
+    IEnumerator DieAfterSeconds() {
+        yield return new WaitForSeconds(30f);
+        Destroy(gameObject);
+    }
 }
