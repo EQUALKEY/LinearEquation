@@ -44,8 +44,11 @@ public class Equation : MonoBehaviour {
     public int id;
 
     void Awake() {
+        // 각 수식 Object는 EventController - Prefab - Equations - Equation 순으로 존재한다.
         ec = transform.parent.parent.parent.GetComponent<EventController>();
 
+        // 각 수식은 Display를 위해 위에서부터 계수, x, 연산자, 상수, 결과값이 들어갈 부모 Object를 가진다.
+        // 사실 계수, 상수, 결과는 부모 Object가 있고 x, 연산자는 직접적으로 Equation 밑으로 들어간다.
         newCoefficientPar = Instantiate(CoefficientPar, transform);
         newX = Instantiate(X, transform);
         newOperPar = Instantiate(OperPar, transform);
@@ -57,10 +60,9 @@ public class Equation : MonoBehaviour {
         MakeOperAndNum();
     }
 
-    void MakeOperAndNum()
-    {
-        for (int i = 0; i < 6; i++)
-        {
+    // 수식 정보에 알맞은 연산자-숫자 Item 생성
+    void MakeOperAndNum() {
+        for (int i = 0; i < 6; i++) {
             Vector3 NewPosition = transform.position + new Vector3(Random.Range(-7f, 7f), Random.Range(-7f, 7f), 0f);
             Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
             GameObject newItemParent = Instantiate(ItemParent, NewPosition, NewQuaternion, transform);
@@ -84,9 +86,8 @@ public class Equation : MonoBehaviour {
         }
     }
 
-    // 일차방정식 숫자 랜덤 생성 및 생성할 Item 정보
-    void NumbersInit()
-    {
+    // 방정식 숫자 랜덤 생성 및 생성할 Item 정보
+    void NumbersInit() {
         System.Random rand = new System.Random(transform.parent.childCount);
         Coefficient = rand.Next(1, 10);
         Coefficient_Deno = 1;
@@ -148,12 +149,15 @@ public class Equation : MonoBehaviour {
 
         RemoveEquation();
         DisplayEquation();
+        
+        // 계산 결과 방정식이 풀렸으면 1초 뒤 Remake(제거 후 새로운 수식 생성)
         if (Coefficient == Coefficient_Deno && Constant == 0) StartCoroutine("RemakeAfterSeconds");
     }
 
+    // 1초 후 Remake
     IEnumerator RemakeAfterSeconds() {
-        yield return new WaitForSeconds(3f);
-        ec.RemakeProblem(gameObject);
+        yield return new WaitForSeconds(1f);
+        ec.RemakeEquation(gameObject);
     }
 
     // 절댓값 계산
@@ -178,44 +182,66 @@ public class Equation : MonoBehaviour {
     }
 
     //---------------------------------------------------------------------------------
-    void DisplayEquation()  // 상태에 맞게 Display 변환 (Main Camera는 z<0, Sub Camera는 z>0 인 것들 보여줌)
-    {
-        if (Coefficient != Coefficient_Deno && Constant != 0)
-        { // 계수, 상수항 모두 있는 경우
+    void DisplayEquation() { // 상태에 맞게 Display 변환 (Main Camera는 z<0, Sub Camera는 z>0 인 것들 보여줌)
+        // 3자리 수 이상되면 Remake
+        if (Coefficient >= 100 || Coefficient_Deno >= 100 || Constant >= 100 || Constant_Deno >= 100 || Result >= 100 || Result_Deno >= 100) ec.RemakeEquation(gameObject);
+        if (Coefficient != Coefficient_Deno && Constant != 0) { // 계수, 상수항 모두 있는 경우
             DisplayNumbers(Coefficient, Coefficient_Deno, newCoefficientPar, new Vector3(-0.9f, 0f, -1f), false);
             newX.transform.localPosition = new Vector3(-0.22f, 0f, -1f);
             DisplayOperator(Constant < 0, newOperPar, new Vector3(0.25f, 0f, -1f));
             DisplayNumbers(abs(Constant), Constant_Deno, newConstantPar, new Vector3(0.94f, 0f, -1f), false);
         }
-        else if (Coefficient != Coefficient_Deno && Constant == 0)
-        { // 계수만 있는 경우
+        else if (Coefficient != Coefficient_Deno && Constant == 0) { // 계수만 있는 경우
             DisplayNumbers(Coefficient, Coefficient_Deno, newCoefficientPar, new Vector3(-0.24f, 0f, -1f), false);
             newX.transform.localPosition = new Vector3(0.44f, 0f, -1f);
         }
-        else if (Coefficient == Coefficient_Deno && Constant != 0)
-        { // 상수항만 있는 경우
+        else if (Coefficient == Coefficient_Deno && Constant != 0) { // 상수항만 있는 경우
             newX.transform.localPosition = new Vector3(-0.47f, 0f, -1f);
             DisplayOperator(Constant < 0, newOperPar, new Vector3(0.04f, 0f, -1f));
             DisplayNumbers(abs(Constant), Constant_Deno, newConstantPar, new Vector3(0.73f, 0f, -1f), false);
         }
-        if (Result < 0) DisplayOperator(Result < 0, newResultPar, new Vector3(-0.58f, 0f, 1f));
+
+        // 결과(방정식의 우변) Display
+        if (Result < 0) DisplayOperator(Result < 0, newResultPar, new Vector3(0.58f, 0f, 1f));
         DisplayNumbers(abs(Result), Result_Deno, newResultPar, Vector3.forward, true);
     }
 
-    void DisplayNumbers(int num, int deno, GameObject par, Vector3 pos, bool isResult) { // 모든 숫자들 Display 컨트롤, 분수도 처리
-        // 분수 아닌경우
-        if (deno == 1) Instantiate(EqNums[num], transform.position + pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
-        else { // 분수인 경우
-            Vector3 numerator = new Vector3(0f, 0.2f);
-            Vector3 denominator = new Vector3(0f, -0.33f);
-            Instantiate(EqNums[num], transform.position + pos + numerator, new Quaternion(0f, 0f, 0f, 1f), par.transform);
-            if(!isResult) Instantiate(EqFracBar, pos - Vector3.forward, new Quaternion(0f, 0f, 0f, 1f), par.transform);
-            else Instantiate(EqFracBar, pos + Vector3.forward, new Quaternion(0f, 0f, 0f, 1f), par.transform);
-            Instantiate(EqNums[deno], transform.position + pos + denominator, new Quaternion(0f, 0f, 0f, 1f), par.transform);
+    // 두 자리 or 한 자리 수 Display. 주의할건 결과식의 경우는 반대로 보여야하므로 (Mirror Image가 제대로 보이려면 반전시켜야됨) localScale의 x값을 -1로 바꿔준다.
+    void DisplayNumber(int num, GameObject par, Vector3 pos, bool isResult) {
+        // 한 자리 수
+        if (num < 10) Instantiate(EqNums[num], pos, new Quaternion(0f, 0f, 0f, 1f), par.transform).transform.localScale = new Vector3(isResult ? -1f : 1f, 1f, 0);
+        else { // 두 자리 수
+            Vector3 delta = new Vector3(0.155f, 0f, 0f);
+            Instantiate(EqNums[num / 10], pos + (isResult ? delta : -delta), new Quaternion(0f, 0f, 0f, 1f), par.transform).transform.localScale = new Vector3(isResult ? -1f : 1f, 1f, 0);
+            Instantiate(EqNums[num % 10], pos + (isResult ? -delta : delta), new Quaternion(0f, 0f, 0f, 1f), par.transform).transform.localScale = new Vector3(isResult ? -1f : 1f, 1f, 0);
         }
     }
 
-    void DisplayOperator(bool isMinus, GameObject par, Vector3 pos) { // 연산자 Display, + or -
+    void DisplayNumbers(int num, int deno, GameObject par, Vector3 pos, bool isResult) { // 모든 숫자들 Display 컨트롤, 분수도 처리
+        // 기준 위치 조정, 결과(방정식의 우변)의 경우 z축이 -, 이외의 경우 +이다.
+        pos += transform.position;
+        if (!isResult) pos -= Vector3.forward;
+        else pos += Vector3.forward;
+
+        // 분수 아닌경우
+        if (deno == 1) DisplayNumber(num, par, pos, isResult);
+        else { // 분수인 경우
+            Vector3 numerator = new Vector3(0f, 0.2f);
+            Vector3 denominator = new Vector3(0f, -0.33f);
+            DisplayNumber(num, par, pos + numerator, isResult);    // 분자
+            DisplayNumber(deno, par, pos + denominator, isResult); // 분모
+
+            // 분수 표시를 위한 분자-분모 사이 막대 Display. 분모나 분자가 두 자리 수인 경우 좀 더 길다
+            if(num < 10 && deno < 10) Instantiate(EqFracBar, pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
+            else {
+                Vector3 FracBarDelta = new Vector3(0.167f, 0f, 0f);
+                Instantiate(EqFracBar, pos + FracBarDelta, new Quaternion(0f, 0f, 0f, 1f), par.transform);
+                Instantiate(EqFracBar, pos - FracBarDelta, new Quaternion(0f, 0f, 0f, 1f), par.transform);
+            }
+        }
+    }
+
+    void DisplayOperator(bool isMinus, GameObject par, Vector3 pos) { // 연산자 Display. + or -
         if (!isMinus) Instantiate(EqOpers[0], transform.position + pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
         else Instantiate(EqOpers[1], transform.position + pos, new Quaternion(0f, 0f, 0f, 1f), par.transform);
     }

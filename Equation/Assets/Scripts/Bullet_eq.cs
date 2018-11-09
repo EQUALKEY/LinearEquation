@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet_eq : MonoBehaviour {
-    // 정보 저장, num >= 0
+    // 정보 저장, num >= 0, oper = +, -, *, /
     public int num;
     public char oper;
 }

@@ -7,6 +7,7 @@ public class Item : MonoBehaviour {
     public int num;
     public char oper;
 
+    // 부모 수식이 없어지면 isDying = true, 아니면 false.
     private bool isDying;
 
     void Awake() {
@@ -21,6 +22,7 @@ public class Item : MonoBehaviour {
         }
     }
 
+    // 30초 뒤에 제거
     IEnumerator DieAfterSeconds() {
         yield return new WaitForSeconds(30f);
         Destroy(gameObject);

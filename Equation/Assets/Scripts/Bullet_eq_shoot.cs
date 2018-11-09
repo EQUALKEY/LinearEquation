@@ -8,7 +8,7 @@ public class Bullet_eq_shoot : MonoBehaviour {
     public char oper;
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag == "Equation") {
+        if (collision.tag == "Equation") { // 발사된 Oper 총알이 수식에 만난 경우 Operate
             collision.GetComponent<Equation>().Operate(num, oper);
             Destroy(gameObject);
         }

@@ -11,13 +11,13 @@ public class Character : MonoBehaviour {
 	}
 
     // Item이랑 충돌시 먹고 ec에 haveBullet, num, oper 값 업데이트
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "bullet_default" && ec.haveBullet==0) {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.tag == "bullet_default" && ec.haveBullet==0) { // 캐릭터와 기본 총알 충돌 시
             ec.haveBullet = 1;
+            ec.MakeBullet();
             Destroy(collision.gameObject);
         }
-        else if(collision.tag == "bullet_eq" && ec.haveBullet == 0) {
+        else if(collision.tag == "bullet_eq" && ec.haveBullet == 0) { // 캐릭터와 Oper 총알 충돌 시
             ec.haveBullet = 2;
             ec.num = collision.GetComponent<Bullet_eq>().num;
             ec.oper = collision.GetComponent<Bullet_eq>().oper;
