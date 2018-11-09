@@ -20,13 +20,15 @@ public class EventController : MonoBehaviour
     // Bullet
     public GameObject DefaultBullet;
     public GameObject OperBullet;
+    public GameObject DefaultBullettoshoot;
+    public GameObject OperBullettoshoot;
 
     //----------------------------------------------------------------------------------------------------------------
     private Vector3[] ProblemPosition = { new Vector3(-20f, -20f, 0f), new Vector3(0f, -20f, 0f), new Vector3(20f, -20f, 0f), new Vector3(-20f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(20f, 0f, 0f), new Vector3(-20f, 20f, 0f), new Vector3(0f, 20f, 0f), new Vector3(20f, 20f, 0f) };
     private int[] NumOfPosition = new int[9];
     public GameObject Problem;
 
-    public bool haveBullet;
+    public int haveBullet; // 0:nothing , 1:default, 2: OPandNUM
     public int num;
     public char oper;
 
@@ -39,6 +41,8 @@ public class EventController : MonoBehaviour
         
         while (Equations.transform.childCount < 5) MakeProblem();
         StartCoroutine(BulletManage());
+
+        haveBullet = 0;
     }
 
     void Update()
@@ -51,6 +55,32 @@ public class EventController : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow)) Character.transform.rotation *= Quaternion.Euler(-Vector3.forward * CharacterAngularVelocity * Time.deltaTime);
         if (Input.GetKey(KeyCode.UpArrow) && (CharacterVelocity.magnitude <= VelocityLimit || Cross < 0)) Character.GetComponent<Rigidbody2D>().AddForce(Character.transform.up * Force * Time.deltaTime);
         if (Input.GetKey(KeyCode.DownArrow) && (CharacterVelocity.magnitude <= VelocityLimit || Cross > 0)) Character.GetComponent<Rigidbody2D>().AddForce(-Character.transform.up * Force * Time.deltaTime);
+
+        if(Input.GetKey(KeyCode.Space) )
+        {
+            if (haveBullet == 1)
+            {
+
+                haveBullet = 0;
+                Vector3 NewPosition = Character.transform.position;
+                Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
+                GameObject ShootBullet = Instantiate(DefaultBullettoshoot, NewPosition, NewQuaternion);
+
+                ShootBullet.GetComponent<BulletMove>().dir = Character.transform.up;
+            }
+            else if (haveBullet == 2)
+            {
+
+                haveBullet = 0;
+                Vector3 NewPosition = Character.transform.position;
+                Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
+                GameObject ShootBullet = Instantiate(OperBullettoshoot, NewPosition, NewQuaternion);
+                ShootBullet.GetComponent<Bullet_eq>().num = num;
+                ShootBullet.GetComponent<Bullet_eq>().oper = oper;
+
+                ShootBullet.GetComponent<BulletMove>().dir = Character.transform.up;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------

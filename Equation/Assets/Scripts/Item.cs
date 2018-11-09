@@ -7,5 +7,6 @@ public class Item : MonoBehaviour {
     public int num;
     public char oper;
 
+   
     // 부모 없어지면 IEnumerator 시작
 }

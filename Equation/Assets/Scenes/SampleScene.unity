@@ -1585,7 +1585,10 @@ MonoBehaviour:
   DefaultBullet: {fileID: 1770879977787376, guid: 43edad664d2352e4a902d3cdfcddfbe6,
     type: 2}
   OperBullet: {fileID: 1524858204045914, guid: 0fc625106d4a86740bb6e88340f5b6c5, type: 2}
-  TimeGauge: {fileID: 2030469294}
+  DefaultBullettoshoot: {fileID: 1213356880484794, guid: e2fa2d65680674e4082f548ca090d685,
+    type: 2}
+  OperBullettoshoot: {fileID: 1852274747584184, guid: b4015373262b53f438937ad2760be5cb,
+    type: 2}
   Problem: {fileID: 1736020287430184, guid: d65eb620cbde7074d8cd7e2e60d3a83b, type: 2}
   haveBullet: 0
   num: 0

@@ -9,6 +9,8 @@ TagManager:
   - Character
   - bullet_eq
   - bullet_default
+  - bullet_eq_shoot
+  - bullet_default_shoot
   layers:
   - Default
   - TransparentFX
