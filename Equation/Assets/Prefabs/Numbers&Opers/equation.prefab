@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4090785956179484}
+  - component: {fileID: 114309901274336600}
   - component: {fileID: 212673997084800400}
   - component: {fileID: 50128005838469848}
   - component: {fileID: 61428907434440924}
@@ -115,7 +116,6 @@ MonoBehaviour:
   - {fileID: 1357137043901422, guid: ea453375f0e10ea49aa7a09f572088db, type: 2}
   EqFracBar: {fileID: 1108834865293112, guid: 3dbb3fca485e3434b9fb65142b1b612d, type: 2}
   X: {fileID: 1506007832181562, guid: c98003b4b171ff342b15dfa51636b018, type: 2}
-  Equal: {fileID: 1958349771375252, guid: b6f2521f04767914abfd3e6437513191, type: 2}
   ItemParent: {fileID: 1543506049243120, guid: a9d357b971c63cd468f0f5e6131b795f, type: 2}
   NumItems:
   - {fileID: 1692138222881750, guid: 808505854e932444795b262828828d9c, type: 2}
@@ -139,6 +139,19 @@ MonoBehaviour:
   ConstantPar: {fileID: 1191111902580922, guid: a66b6198ddf60414b974038f02014a09,
     type: 2}
   ResultPar: {fileID: 1887212247748718, guid: 690e2a4ea05e227498aeb76d10fd5a9b, type: 2}
+  Coefficient: 0
+  id: 0
+--- !u!114 &114309901274336600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736020287430184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b0c743f7c0a894a9d90b83d2239112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212673997084800400
 SpriteRenderer:
   m_ObjectHideFlags: 1

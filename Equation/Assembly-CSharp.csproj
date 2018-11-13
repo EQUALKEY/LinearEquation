@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Break.cs" />
      <Compile Include="Assets\Scripts\Bullet_default.cs" />
      <Compile Include="Assets\Scripts\Bullet_eq.cs" />
      <Compile Include="Assets\Scripts\Bullet_eq_shoot.cs" />

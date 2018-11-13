@@ -38,12 +38,13 @@ public class Equation : MonoBehaviour {
     private int Result_Deno;        // 결과의 분모
 
     // 생성할 Item 정보 저장공간
-    private int[] ItemNumDatas = new int[6];  // 0 ~ 9
-    private int[] ItemOperDatas = new int[6]; // 0 ~ 3: +, -, *, /
-
+    private int[] ItemNumDatas = new int[10];  // 0 ~ 9
+    private int[] ItemOperDatas = new int[10]; // 0 ~ 3: +, -, *, /
+    private float ItemRange;
     public int id;
 
     void Awake() {
+        ItemRange = 5.9f;
         // 각 수식 Object는 EventController - Prefab - Equations - Equation 순으로 존재한다.
         ec = transform.parent.parent.parent.GetComponent<EventController>();
 
@@ -62,8 +63,11 @@ public class Equation : MonoBehaviour {
 
     // 수식 정보에 알맞은 연산자-숫자 Item 생성
     void MakeOperAndNum() {
-        for (int i = 0; i < 6; i++) {
-            Vector3 NewPosition = transform.position + new Vector3(Random.Range(-7f, 7f), Random.Range(-7f, 7f), 0f);
+        for (int i = 0; i < 10; i++) {
+            float x = 0f, y = 0f;
+            while (-2f < x && x < 2f) x = Random.Range(-ItemRange, ItemRange);
+            while (-2f < y && y < 2f) y = Random.Range(-ItemRange, ItemRange);
+            Vector3 NewPosition = transform.position + new Vector3(x, y, 0f);
             Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
             GameObject newItemParent = Instantiate(ItemParent, NewPosition, NewQuaternion, transform);
             GameObject newItem_num = Instantiate(NumItems[ItemNumDatas[i]], newItemParent.transform.position - Vector3.forward, NewQuaternion, newItemParent.transform);
@@ -106,7 +110,7 @@ public class Equation : MonoBehaviour {
             ItemNumDatas[i] = Coefficient;
             ItemOperDatas[i++] = 3;
         }
-        while(i<6) {
+        while(i<10) {
             ItemNumDatas[i] = rand.Next(1, 10);
             ItemOperDatas[i] = rand.Next(0, 4);
             if (ItemNumDatas[i] == 0 && ItemOperDatas[i] == 3) i--; // 0으로 나누는 연산 제거

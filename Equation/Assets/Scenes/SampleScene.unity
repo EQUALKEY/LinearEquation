@@ -743,7 +743,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -29.7}
+  m_Offset: {x: 0, y: -19.9}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -754,7 +754,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 60, y: 0.5}
+  m_Size: {x: 39.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1001 &351232765
 Prefab:
@@ -1052,7 +1052,7 @@ Prefab:
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.052876715
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
@@ -1082,22 +1082,22 @@ Prefab:
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 285.37653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 281.54865
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 7
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 3.5
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
         type: 2}
@@ -1132,21 +1132,6 @@ Prefab:
     - target: {fileID: 1283782646310256, guid: 9cde77dd46d021849b0fb7ad4b1ec485, type: 2}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
-        type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.70375
-      objectReference: {fileID: 0}
-    - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
-        type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.70375
-      objectReference: {fileID: 0}
-    - target: {fileID: 224619191811145208, guid: 9cde77dd46d021849b0fb7ad4b1ec485,
-        type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.70375
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cde77dd46d021849b0fb7ad4b1ec485, type: 2}
@@ -3157,7 +3142,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -29.7, y: 0}
+  m_Offset: {x: -19.9, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3168,7 +3153,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 60}
+  m_Size: {x: 0.5, y: 39.5}
   m_EdgeRadius: 0
 --- !u!50 &1068668600
 Rigidbody2D:
@@ -4325,7 +4310,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 29.7, y: 0}
+  m_Offset: {x: 19.9, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4336,7 +4321,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 60}
+  m_Size: {x: 0.5, y: 39.5}
   m_EdgeRadius: 0
 --- !u!1001 &1380299899
 Prefab:
@@ -5022,7 +5007,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 29.7}
+  m_Offset: {x: 0, y: 19.9}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5033,7 +5018,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 60, y: 0.5}
+  m_Size: {x: 39.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1001 &1610433095
 Prefab:

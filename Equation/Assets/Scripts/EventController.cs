@@ -36,7 +36,8 @@ public class EventController : MonoBehaviour
     public GameObject DefaultBulletInBox;
 
     //----------------------------------------------------------------------------------------------------------------
-    private Vector3[] EquationPosition = { new Vector3(-20f, -20f, 0f), new Vector3(0f, -20f, 0f), new Vector3(20f, -20f, 0f), new Vector3(-20f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(20f, 0f, 0f), new Vector3(-20f, 20f, 0f), new Vector3(0f, 20f, 0f), new Vector3(20f, 20f, 0f) };
+    private const float EdgeLength = 10f;
+    private Vector3[] EquationPosition = { new Vector3(-EdgeLength, -EdgeLength, 0f), new Vector3(0f, -EdgeLength, 0f), new Vector3(EdgeLength, -EdgeLength, 0f), new Vector3(-EdgeLength, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(EdgeLength, 0f, 0f), new Vector3(-EdgeLength, EdgeLength, 0f), new Vector3(0f, EdgeLength, 0f), new Vector3(EdgeLength, EdgeLength, 0f) };
     private int[] NumOfPosition = new int[9];
     public GameObject Equation;
 
@@ -50,7 +51,7 @@ public class EventController : MonoBehaviour
         CharacterAngularVelocity = 500f;
         Force = 100f * Character.GetComponent<Rigidbody2D>().mass;
         
-        while (Equations.transform.childCount < 5) MakeEquation();
+        while (Equations.transform.childCount < 3) MakeEquation();
         StartCoroutine(BulletManage());
 
         haveBullet = 0;
@@ -128,7 +129,7 @@ public class EventController : MonoBehaviour
             RandomNum = Random.Range(0, 9);
         } while (NumOfPosition[RandomNum] != 0);
         NumOfPosition[RandomNum]++;
-        Vector3 Offset = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f);
+        Vector3 Offset = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f), 0f);
         Vector3 NewPosition = EquationPosition[RandomNum] + Offset;
         Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
 
@@ -154,7 +155,7 @@ public class EventController : MonoBehaviour
     }
     
     public void MakeBullet() { // Bullet 1개 만듦
-        Vector3 NewPosition = new Vector3(Random.Range(-23f, 23f), Random.Range(-23f, 23f), 0f);
+        Vector3 NewPosition = new Vector3(Random.Range(-18f, 18f), Random.Range(-18f, 18f), 0f);
         Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
         GameObject newBullet = Instantiate(DefaultBullet, NewPosition, NewQuaternion);
         newBullet.transform.parent = Bullets.transform;

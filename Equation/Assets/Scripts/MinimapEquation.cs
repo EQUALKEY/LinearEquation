@@ -16,7 +16,7 @@ public class MinimapEquation : MonoBehaviour {
         if (Equation == null) Destroy(gameObject);
         else { // 부모 수식 따라 미니맵에서 움직임. 비율은 아래 식대로
             EqPosition = Equation.transform.position;
-            transform.localPosition = new Vector3(EqPosition.x * 2, EqPosition.y * 2 - 190f, 0f);
+            transform.localPosition = new Vector3(EqPosition.x * 3f, EqPosition.y * 3f - 190f, 0f);
         }
     }
 }
