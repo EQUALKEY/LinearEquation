@@ -11,6 +11,7 @@ TagManager:
   - bullet_default
   - bullet_eq_shoot
   - bullet_default_shoot
+  - MapEdge
   layers:
   - Default
   - TransparentFX

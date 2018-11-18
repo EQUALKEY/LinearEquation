@@ -24,4 +24,16 @@ public class Character : MonoBehaviour {
             Destroy(collision.gameObject);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.tag == "MapEdge") {
+            Vector2 VelocityBeforeCollision = collision.relativeVelocity;
+            if (collision.transform.name == "Left" && collision.relativeVelocity.x > 0) transform.position = new Vector3(19.2f, transform.position.y);
+            else if (collision.transform.name == "Right" && collision.relativeVelocity.x < 0) transform.position = new Vector3(-19.2f, transform.position.y);
+            else if (collision.transform.name == "Top" && collision.relativeVelocity.y < 0) transform.position = new Vector3(transform.position.x, -19.2f);
+            else if (collision.transform.name == "Bottom" && collision.relativeVelocity.y > 0) transform.position = new Vector3(transform.position.x, 19.2f);
+            transform.GetComponent<Rigidbody2D>().velocity = -VelocityBeforeCollision;
+            ec.SetCameraWithCharacterPos();
+        }
+    }
 }

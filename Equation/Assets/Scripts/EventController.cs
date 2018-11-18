@@ -35,6 +35,9 @@ public class EventController : MonoBehaviour
     public GameObject[] OpersInBox = new GameObject[4];
     public GameObject DefaultBulletInBox;
 
+    // 우측 카메라
+    public GameObject MirrorCamera;
+
     //----------------------------------------------------------------------------------------------------------------
     private const float EdgeLength = 10f;
     private Vector3[] EquationPosition = { new Vector3(-EdgeLength, -EdgeLength, 0f), new Vector3(0f, -EdgeLength, 0f), new Vector3(EdgeLength, -EdgeLength, 0f), new Vector3(-EdgeLength, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(EdgeLength, 0f, 0f), new Vector3(-EdgeLength, EdgeLength, 0f), new Vector3(0f, EdgeLength, 0f), new Vector3(EdgeLength, EdgeLength, 0f) };
@@ -119,6 +122,13 @@ public class EventController : MonoBehaviour
         for (int i = 0; i < 10; i++) NumbersInBox[i].SetActive(false);
         for (int i = 0; i < 4; i++) OpersInBox[i].SetActive(false);
         DefaultBulletInBox.SetActive(false);
+    }
+
+    // 캐릭터가 맵 가장자리 충돌해서 반대편으로 갈 때 카메라도 순간이동
+    public void SetCameraWithCharacterPos() {
+        Vector3 CharacterPos = Character.transform.position;
+        MainCamera.transform.position = new Vector3(CharacterPos.x, CharacterPos.y, -10f);
+        MirrorCamera.transform.position = new Vector3(CharacterPos.x, CharacterPos.y, 10f);
     }
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------

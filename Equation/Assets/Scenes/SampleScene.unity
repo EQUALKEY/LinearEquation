@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 304051358}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: MapEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2070,6 +2070,7 @@ MonoBehaviour:
   - {fileID: 1559798942}
   - {fileID: 12870231}
   DefaultBulletInBox: {fileID: 1854283111}
+  MirrorCamera: {fileID: 364853164}
   Equation: {fileID: 1736020287430184, guid: d65eb620cbde7074d8cd7e2e60d3a83b, type: 2}
   haveBullet: 0
   num: 0
@@ -3112,7 +3113,7 @@ GameObject:
   - component: {fileID: 1068668600}
   m_Layer: 0
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: MapEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4260,7 +4261,7 @@ GameObject:
   - component: {fileID: 1355668933}
   m_Layer: 0
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: MapEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4957,7 +4958,7 @@ GameObject:
   - component: {fileID: 1610102067}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: MapEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6232,7 +6233,7 @@ GameObject:
   - component: {fileID: 1958801258}
   m_Layer: 0
   m_Name: BackGround
-  m_TagString: Untagged
+  m_TagString: MapEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
