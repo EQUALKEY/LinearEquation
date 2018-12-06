@@ -9,6 +9,7 @@ public class EventController : MonoBehaviour
     public GameObject MinimapEquations;
     public GameObject Equations;
     public GameObject Bullets;
+    private float MinimapRate;
 
     // 캐릭터 이동. 위에서부터 캐릭터 오브젝트, 회전속도, 힘, 속도제한, 캐릭터속도, 속도 출력이고 Awake에서 초기화
     public GameObject Character;
@@ -49,9 +50,10 @@ public class EventController : MonoBehaviour
     public char oper;
 
     void Awake() { // 초기화
-        VelocityLimit = 3f;
+        MinimapRate = 2.9f;
+        VelocityLimit = 300f;
         CharacterVelocity = new Vector2();
-        CharacterAngularVelocity = 500f;
+        CharacterAngularVelocity = 300f;
         Force = 100f * Character.GetComponent<Rigidbody2D>().mass;
         
         while (Equations.transform.childCount < 3) MakeEquation();
@@ -63,7 +65,7 @@ public class EventController : MonoBehaviour
     void Update() {
         // 미니맵 카메라 컨트롤
         MainCameraPosition = MainCamera.transform.position;
-        MinimapCamera.transform.localPosition = new Vector3(MainCameraPosition.x * 2, MainCameraPosition.y * 2 - 190f, 0f);
+        MinimapCamera.transform.localPosition = new Vector3(MainCameraPosition.x * MinimapRate, MainCameraPosition.y * MinimapRate - 190f, 0f);
 
         // BulletBox 컨트롤 (저장된 num, oper따라서 출력만 함
         BulletBoxDelete(); // BulletBox 내 모든거 끔
@@ -102,8 +104,8 @@ public class EventController : MonoBehaviour
                 Vector3 NewPosition = Character.transform.position;
                 Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
                 GameObject ShootBullet = Instantiate(DefaultBullettoshoot, NewPosition, NewQuaternion, transform);
-
-                ShootBullet.GetComponent<BulletMove>().dir = Character.transform.up;
+                
+                ShootBullet.transform.rotation = Character.transform.rotation;
             }
             else if (haveBullet == 2) { // Oper 총알 가지고 있는 경우
                 haveBullet = 0;
@@ -113,7 +115,7 @@ public class EventController : MonoBehaviour
                 ShootBullet.GetComponent<Bullet_eq_shoot>().num = num;
                 ShootBullet.GetComponent<Bullet_eq_shoot>().oper = oper;
 
-                ShootBullet.GetComponent<BulletMove>().dir = Character.transform.up;
+                ShootBullet.transform.rotation = Character.transform.rotation;
             }
         }
     }
@@ -168,6 +170,7 @@ public class EventController : MonoBehaviour
         Vector3 NewPosition = new Vector3(Random.Range(-18f, 18f), Random.Range(-18f, 18f), 0f);
         Quaternion NewQuaternion = new Quaternion(0f, 0f, 0f, 1f);
         GameObject newBullet = Instantiate(DefaultBullet, NewPosition, NewQuaternion);
+        newBullet.transform.localEulerAngles = new Vector3(0, 0, Random.Range(-180, 180));
         newBullet.transform.parent = Bullets.transform;
     }
     //-------------------------------------------------------------------------------------------------------------------------------------------
