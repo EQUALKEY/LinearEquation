@@ -12,6 +12,9 @@ TagManager:
   - bullet_eq_shoot
   - bullet_default_shoot
   - MapEdge
+  - super
+  - magnet
+  - time
   layers:
   - Default
   - TransparentFX
@@ -48,6 +51,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BackGround
+    uniqueID: 2903894639
+    locked: 0
+  - name: Window
+    uniqueID: 3381994059
     locked: 0
   - name: Character
     uniqueID: 2818399989

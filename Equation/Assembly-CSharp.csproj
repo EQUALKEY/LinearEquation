@@ -53,18 +53,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Break.cs" />
-     <Compile Include="Assets\Scripts\Bullet_default.cs" />
-     <Compile Include="Assets\Scripts\Bullet_eq.cs" />
-     <Compile Include="Assets\Scripts\Bullet_eq_shoot.cs" />
-     <Compile Include="Assets\Scripts\BulletMove.cs" />
-     <Compile Include="Assets\Scripts\Camera.cs" />
-     <Compile Include="Assets\Scripts\Character.cs" />
-     <Compile Include="Assets\Scripts\Equation.cs" />
-     <Compile Include="Assets\Scripts\EventController.cs" />
-     <Compile Include="Assets\Scripts\GameCloseButton.cs" />
-     <Compile Include="Assets\Scripts\Item.cs" />
-     <Compile Include="Assets\Scripts\MinimapEquation.cs" />
+     <Compile Include="Assets\Scripts\Play\Break.cs" />
+     <Compile Include="Assets\Scripts\Play\Bullet_default.cs" />
+     <Compile Include="Assets\Scripts\Play\Bullet_eq.cs" />
+     <Compile Include="Assets\Scripts\Play\Bullet_eq_shoot.cs" />
+     <Compile Include="Assets\Scripts\Play\BulletMove.cs" />
+     <Compile Include="Assets\Scripts\Play\Buttons.cs" />
+     <Compile Include="Assets\Scripts\Play\Camera.cs" />
+     <Compile Include="Assets\Scripts\Play\Character.cs" />
+     <Compile Include="Assets\Scripts\Play\Equation.cs" />
+     <Compile Include="Assets\Scripts\Play\EventController.cs" />
+     <Compile Include="Assets\Scripts\Play\Item.cs" />
+     <Compile Include="Assets\Scripts\Play\Magnet.cs" />
+     <Compile Include="Assets\Scripts\Play\MinimapEquation.cs" />
+     <Compile Include="Assets\Scripts\Play\SuperBulletShoot.cs" />
+     <Compile Include="Assets\Scripts\Title\CloseButton.cs" />
+     <Compile Include="Assets\Scripts\Title\GameStartButton.cs" />
+     <Compile Include="Assets\Scripts\Title\RankButton.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Git/LinearEquation/Equation/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>

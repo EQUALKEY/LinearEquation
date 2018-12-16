@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4558505534666058}
   - component: {fileID: 212955626174679490}
+  - component: {fileID: 114885219740547216}
   - component: {fileID: 61072153128125162}
   m_Layer: 0
   m_Name: bullet_default
@@ -66,6 +67,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.19333333, y: 0.22666667}
   m_EdgeRadius: 0
+--- !u!114 &114885219740547216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1770879977787376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5d91f6ca0c9fdd4c90e652e99d6b516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ec: {fileID: 0}
 --- !u!212 &212955626174679490
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -99,7 +112,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2028539153
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: efa70fcca1f81a14ca0a059258e1027f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
