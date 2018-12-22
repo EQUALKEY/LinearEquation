@@ -221,6 +221,8 @@ public class Equation : MonoBehaviour {
             newX.transform.localPosition = new Vector3(-0.47f, 0f, -1f);
             DisplayOperator(Constant < 0, newOperPar, new Vector3(0.04f, 0f, -1f));
             DisplayNumbers(abs(Constant), Constant_Deno, newConstantPar, new Vector3(0.73f, 0f, -1f), false);
+        } else if (Coefficient == Coefficient_Deno && Constant == 0) {
+            newX.transform.localPosition = new Vector3(0f, 0f, -1f);
         }
 
         // 결과(방정식의 우변) Display
